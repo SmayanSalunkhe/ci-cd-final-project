@@ -1,38 +1,46 @@
-# CI/CD Tools and Practices Final Project Template
+# CI/CD Final Project — Counter Service
 
-This repository contains the template to be used for the Final Project for the Coursera course **CI/CD Tools and Practices**.
+## Project name
+**CI/CD Tools and Practices Final Project**
 
-## Usage
+## Project overview
+This repository contains a Flask-based Counter REST API used to demonstrate continuous integration and continuous delivery (CI/CD). The service exposes health and counter endpoints and is packaged in a Docker image for deployment to OpenShift.
 
-This repository is to be used as a template to create your own repository in your own GitHub account. No need to Fork it as it has been set up as a Template. This will avoid confusion when making Pull Requests in the future.
+## Technology stack
+- Python 3.9 and Flask
+- GitHub Actions for continuous integration
+- Flake8 for linting
+- Nose for unit tests
+- Tekton Tasks and OpenShift Pipelines for delivery
+- Docker for containerization
 
-From the GitHub **Code** page, press the green **Use this template** button to create your own repository from this template.
+## API endpoints
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | Service information |
+| GET | `/health` | Health check |
+| GET | `/counters` | List counters |
+| POST | `/counters/{name}` | Create a counter |
+| GET | `/counters/{name}` | Read a counter |
+| PUT | `/counters/{name}` | Increment a counter |
+| DELETE | `/counters/{name}` | Delete a counter |
 
-Name your repo: `ci-cd-final-project`.
-
-## Setup
-
-After entering the lab environment you will need to run the `setup.sh` script in the `./bin` folder to install the prerequisite software.
-
+## Run locally
 ```bash
-bash bin/setup.sh
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python -m flask --app service run --host=0.0.0.0 --port=8000
 ```
 
-Then you must exit the shell and start a new one for the Python virtual environment to be activated.
-
+## Run quality checks and tests
 ```bash
-exit
+flake8 service tests
+nosetests -v
 ```
 
-## Tasks
-
-
-## License
-
-Licensed under the Apache License. See [LICENSE](/LICENSE)
+## CI/CD
+GitHub Actions runs Flake8 and the Nose unit-test suite on pushes and pull requests. Tekton task definitions are maintained in `.tekton/tasks.yml` for cleanup and test execution. OpenShift Pipeline resources and cluster-specific evidence are created in the lab environment.
 
 ## Author
-
-Skills Network
-
-## <h3 align="center"> © IBM Corporation 2023. All rights reserved. <h3/>
+Smayan Salunkhe
